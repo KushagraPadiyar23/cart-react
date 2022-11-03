@@ -11,13 +11,67 @@ class CartItem extends React.Component
             img:''
         }
         this.increaseQuantity=this.increaseQuantity.bind(this);
+        //this.decreaseQuantity=this.decreaseQuantity.bind(this);
+        this.testing();
     }
+      testing()
+     {
+       const promise=new Promise((resolve,reject)=>{
+         setTimeout(()=>{
+          resolve('done');
+        },5000);
+       })
+       promise.then(()=>{
+         this.setState({qty:100},()=>{
+          console.log(this.state);
+        });
+        //  this.setState({qty:this.state.qty+10});
+        // this.setState({qty:this.state.qty+20});
+        //  this.setState({qty:this.state.qty+30});
+         console.log("state",this.state);
+       });
+      } 
     increaseQuantity()
     {
-        console.log('this', this.state);
+      //setState form 1 
+     /* this.setState({
+        qty:this.state.qty+1
+      });*/
+     
+      //setState form2-using callback
+      this.setState((prevState)=>{
+        return{
+            qty:prevState.qty+1
+        }
+      },()=>{
+        console.log(this.state);
+      });
+      this.setState((prevState)=>{
+        return{
+            qty:prevState.qty+1
+        }
+      },()=>{
+        console.log(this.state);
+      });
+     
+    }
+    //arrow functions can also be used,then we dont need to bind it in constructor
+    decreaseQuantity=()=>
+    {
+      const {qty}=this.state
+      if(qty===0)
+      {
+        return;
+      }
+        this.setState((prevState)=>{
+            return{
+                qty:prevState.qty-1
+            }
+        });
     }
     render()
     {
+        console.log('render');
         const{price,title,qty}=this.state;
         return(
            <div className="cart-item">
@@ -40,6 +94,7 @@ class CartItem extends React.Component
                       alt="decrease" 
                       className="action-icons" 
                       src="https://cdn-icons-png.flaticon.com/128/1828/1828906.png" 
+                      onClick={this.decreaseQuantity}
                     />
                     <img 
                       alt="delete" 
