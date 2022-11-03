@@ -3,65 +3,12 @@ class CartItem extends React.Component
 {
   
  
-      //  testing()
-      // {
-      //   const promise=new Promise((resolve,reject)=>{
-      //     setTimeout(()=>{
-      //      resolve('done');
-      //    },5000);
-      //  })
-      //  promise.then(()=>{
-      //    this.setState({qty:100},()=>{
-      //     console.log(this.state);
-      //   });
-      //   //  this.setState({qty:this.state.qty+10});
-      //   // this.setState({qty:this.state.qty+20});
-      //   //  this.setState({qty:this.state.qty+30});
-      //    console.log("state",this.state);
-      //  });
-      // } 
-    increaseQuantity()
-    {
-      //setState form 1 
-     /* this.setState({
-        qty:this.state.qty+1
-      });*/
-     
-      //setState form2-using callback
-      this.setState((prevState)=>{
-        return{
-            qty:prevState.qty+1
-        }
-      },()=>{
-        console.log(this.state);
-      });
-      this.setState((prevState)=>{
-        return{
-            qty:prevState.qty+1
-        }
-      },()=>{
-        console.log(this.state);
-      });
-     
-    }
-    //arrow functions can also be used,then we dont need to bind it in constructor
-    decreaseQuantity=()=>
-    {
-      const {qty}=this.state
-      if(qty===0)
-      {
-        return;
-      }
-        this.setState((prevState)=>{
-            return{
-                qty:prevState.qty-1
-            }
-        });
-    }
+      
     render()
     {
         console.log('this.props=',this.props);
         const{price,title,qty}=this.props.product;
+        const{onIncreaseQuantity,onDecreaseQuantity,product,onHandleDelete}=this.props;
         return(
            <div className="cart-item">
             <div className="left-block">
@@ -77,18 +24,19 @@ class CartItem extends React.Component
                       alt="increase" 
                       className="action-icons" 
                       src="https://cdn-icons-png.flaticon.com/128/3303/3303893.png"
-                      onClick={this.increaseQuantity}
+                      onClick={()=>onIncreaseQuantity(product)}
                     />
                     <img 
                       alt="decrease" 
                       className="action-icons" 
                       src="https://cdn-icons-png.flaticon.com/128/1828/1828906.png" 
-                      onClick={this.decreaseQuantity}
+                      onClick={()=>onDecreaseQuantity(product)}
                     />
                     <img 
                       alt="delete" 
                       className="action-icons" 
                       src="https://cdn-icons-png.flaticon.com/128/1214/1214428.png" 
+                      onClick={()=>onHandleDelete(product.id)}
                     />
                 </div>
             </div>
